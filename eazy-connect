@@ -1,20 +1,26 @@
 #!/bin/bash
 
+### now variable for current date
 now=$(date +"%H:%M %m/%d/%Y")
 
+### if config file exists set CONF variable
 if [ -f /etc/wvdial.conf ]; then
 	CONF=/etc/wvdial.conf
+### else echo to log
 else
 	echo $now 'No config file found' >> /var/log/wconnect.log
 	exit 0
 fi
 
+### if usb-modem is connected, do modeswitch magic
 if lsusb | grep 12d1;then
 	usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000'
 	sleep 1
 else
 	echo $now 'Modeswitch failed' >> /var/log/wconnect.log
 fi
+
+### wvdial voodoo
 wvdial -C $CONF pin
 sleep 1
 wvdial -C $CONF umts
