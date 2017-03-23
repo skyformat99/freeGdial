@@ -1,39 +1,46 @@
 #!/bin/bash
 
-now=$(date +"%H:%M %m/%d/%Y")
+### if wvdial is already running nothing happens
+if ! pidof wvdial &> /dev/null; then
 
-### set config file 
-if [ -f /etc/wvdial.conf ]; then
-	CONF=/etc/wvdial.conf
-else
-	echo $now 'No config file found' >> /var/log/wconnect.log
-	exit 0
-fi
+	now=$(date +"%H:%M %m/%d/%Y")
 
-### create log file and/or set
-if [ -f /var/log/wconnect.log ]; then
-	LOG=/var/log/wconnect.log
-else
-	touch /var/log/wconnect.log
-	LOG=/var/log/wconnect.log
-fi
+	### set config file
+	if [ -f /etc/wvdial.conf ]; then
+		CONF=/etc/wvdial.conf
+	else
+		echo $now 'No config file found' >> /var/log/wconnect.log
+		exit 0
+	fi
 
-### switch mode of usb modem
-if lsusb | grep 12d1;then
-	usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000'
-	sleep 1
-else
-	echo $now 'Modeswitch failed' >> LOG
-	exit 0
-fi
+	### create log file and/or set
+	if [ -f /var/log/wconnect.log ]; then
+		LOG=/var/log/wconnect.log
+	else
+		touch /var/log/wconnect.log
+		LOG=/var/log/wconnect.log
+	fi
 
-### connect to mobile broadband
-if lsusb | grep Modem;then
-	wvdial -C $CONF pin
-	sleep 1
-	wvdial -C $CONF umts
-	echo $now 'Connection established' >> LOG
+	### switch mode of usb modem
+	if lsusb | grep 12d1 &> /dev/null;then
+		usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000' &> /dev/null
+		sleep 1
+	else
+		echo $now 'Modeswitch failed' >> $LOG
+		exit 0
+	fi
+
+	### connect to mobile broadband
+	if lsusb | grep Modem &> /dev/null;then
+		wvdial -C $CONF pin &> /dev/null
+		sleep 1
+		wvdial -C $CONF umts &> /dev/null &
+		echo $now 'Connection established' >> $LOG
+	else
+		echo $now 'No modem device connected' >> $LOG
+		exit 0
+	fi
 else
-	echo $now 'No modem device connected' >> LOG
+	echo $now 'wvdial already started' >> $LOG
 	exit 0
 fi
