@@ -1,18 +1,20 @@
 # eazy-connect
 
 <h2>Connect to mobile broadband via wvdial</h2><br>
-<h6>This script is supposed to help to establish a connection to your mobile carrier.
-I'm not the maintainer or developer neither for wvdial nor usb-modeswitch, this script is a wrapper for both to ease up the installation.<h6>
+This script is supposed to help to establish a connection to your mobile carrier.
+I'm not the maintainer or developer neither for wvdial nor usb-modeswitch, this script is a wrapper for both to ease up the installation.
 
 <h3>Requirements</h3>
 <h4>Hardware</h4>
 <br>
 USB-3G/4G-Stick
+<br>
 Any Hostdevice(Raspberry recommended)
 
 <h4>Software</h4>
 <br>
 wvdial
+<br>
 usb-modeswitch
 
 <h3>Setup</h3>
