@@ -6,13 +6,11 @@ I'm not the maintainer or developer neither for wvdial nor usb-modeswitch, this 
 
 <h3>Requirements</h3>
 <h4>Hardware</h4>
-<br>
 USB-3G/4G-Stick
 <br>
 Any Hostdevice(Raspberry recommended)
 
 <h4>Software</h4>
-<br>
 wvdial
 <br>
 usb-modeswitch
