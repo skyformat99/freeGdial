@@ -1,26 +1,32 @@
 #!/bin/bash
 
+### check for root privilege
+if [ "$(id -u)" != "0" ]; then
+	echo "Sudo that!"
+	exit 1
+fi
+
 ### if wvdial is already running nothing happens
 if ! pidof wvdial &> /dev/null; then
 
 	now=$(date +"%H:%M %m/%d/%Y")
 
+	### create log file and/or set
+	if [ -f /var/log/eazy.log ]; then
+		LOG=/var/log/eazy.log
+	else
+		touch /var/log/eazy.log
+		LOG=/var/log/eazy.log
+	fi
+	
 	### set config file
 	if [ -f /etc/wvdial.conf ]; then
 		CONF=/etc/wvdial.conf
 	else
-		echo $now 'No config file found' >> /var/log/wconnect.log
+		echo $now 'No config file found' >> $LOG
 		exit 0
 	fi
-
-	### create log file and/or set
-	if [ -f /var/log/wconnect.log ]; then
-		LOG=/var/log/wconnect.log
-	else
-		touch /var/log/wconnect.log
-		LOG=/var/log/wconnect.log
-	fi
-
+	
 	### switch mode of usb modem
 	if lsusb | grep 12d1 &> /dev/null;then
 		usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000' &> /dev/null
