@@ -15,37 +15,18 @@ wvdial
 <br>
 usb-modeswitch
 
-<h3>Setup</h3>
+<h3><del>Setup</del></h3>
 <del>Before execute the eazy-connect script be adviced that there is a also config file needed.</del>
 <br>
-The config file can look like this:
+<del>The config file can look like this:</del>
 <br>
-<pre>
-<code>
-[Dialer Defaults]
-Init1 = ATZ
-Init2 = ATQ0 V1 E1 S0=0
-Modem Type = Analog Modem
-ISDN = 0
-Modem = /dev/ttyUSB0
-Baud = 115200
+The wvdial configuration file is now built into the eazy-connect script.
+You just need to enter your PIN and APN inside of the script to establish connection.
 <br>
-[Dialer pin]
-Init3 = AT+CPIN='your sim-pin'
-[Dialer pinstatus]
-Init4 = AT+CPIN?
-[Dialer umts]
-Carrier Check = no
-Init5 = AT+CGDCONT=1,"IP","your mobile carrier's apn"
-Stupid Mode = 1
-Phone = *99#
-Username = any
-Password = any
-Dial Attemps = 2
-</code>
-</pre>
+The script writes a temporarily configuration file to /tmp/eazy-connect.conf
 <br>
 
+<h3>Execution</h3>
 If you want to connect to mobile broadband on purpose you can execute this script by yourself
 
 <code>chmod 755 eazy-connect</code>
