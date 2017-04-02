@@ -1,5 +1,16 @@
 #!/bin/bash
 
+PIN="Enter your PIN here"
+APN="Put in your carrier" # e.g. internet.t-d1.de
+# If your broadband service provider gave you credentials you can enter them here.
+# Otherwise just leave the defaults
+USER="any"
+PASS="any"
+
+CONF="/tmp/eazy-connect.conf"
+
+
+
 ### check for root privilege
 if [ "$(id -u)" != "0" ]; then
 	echo "Sudo that!"
@@ -20,12 +31,35 @@ if ! pidof wvdial &> /dev/null; then
 	fi
 	
 	### set config file
-	if [ -f /etc/wvdial.conf ]; then
-		CONF=/etc/wvdial.conf
-	else
-		echo $now 'No config file found' >> $LOG
-		exit 0
-	fi
+	cat >> $CONF << EAZY_CONF
+[Dialer Defaults]
+Init1 = ATZ
+Init2 = ATQ0 V1 E1 S0=0
+Modem Type = Analog Modem
+ISDN = 0
+Modem = /dev/ttyUSB0
+Baud = 115200
+
+[Dialer pin]
+Init3 = AT+CPIN='$PIN'
+[Dialer pinstatus]
+Init4 = AT+CPIN?
+[Dialer umts]
+Carrier Check = no
+Init5 = AT+CGDCONT=1,"IP","$APN"
+Stupid Mode = 1
+Phone = *99#
+Username = $USER
+Password = $PASS
+Dial Attemtps = 2
+EAZY_CONF
+	# old behavior, isn't yet to be deleted
+	#if [ -f /etc/wvdial.conf ]; then
+	#	CONF=/tmp/eazy_connect.conf
+	#else
+	#	echo $now 'No config file found' >> $LOG
+	#	exit 0
+	#fi
 	
 	### switch mode of usb modem
 	if lsusb | grep 12d1 &> /dev/null;then
@@ -47,6 +81,6 @@ if ! pidof wvdial &> /dev/null; then
 		exit 0
 	fi
 else
-	echo $now 'wvdial already started' >> $LOG
+	echo $now 'wvdial already started'
 	exit 0
 fi
