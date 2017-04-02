@@ -1,5 +1,25 @@
 #!/bin/bash
 
+me=`basename $0`
+version="0.1"
+
+print_help(){
+    echo "$me-$version the eazy way to connect to your mobile broadband provider
+    
+    Help:
+    before first use change the variables in the script for your needs
+    PIN="XYZA"
+    APN="ABC.PROVIDER.COM
+    
+    Also notice that wvdial and usb_modeswitch is needed.
+    
+    For further instructions, get help on https://github.com/groldo/eazy-connect"
+}
+
+case "$1" in
+    *)                  print_help;;
+esac
+
 PIN="Enter your PIN here"
 APN="Put in your carrier" # e.g. internet.t-d1.de
 # If your broadband service provider gave you credentials you can enter them here.
@@ -9,20 +29,22 @@ PASS="any"
 
 CONF="/tmp/eazy-connect.conf"
 
+# check if required software is installed
+type wvdial >/dev/null 2>&1 || { echo >&2 "Error: wvdial is required."; exit 1; }
+type usb_modeswitch >/dev/null 2>&1 || { echo >&2 "Error: usb_modeswitch is required."; exit 1; }
 
-
-### check for root privilege
+# check for root privilege
 if [ "$(id -u)" != "0" ]; then
 	echo "Sudo that!"
 	exit 1
 fi
 
-### if wvdial is already running nothing happens
+# if wvdial is already running nothing happens
 if ! pidof wvdial &> /dev/null; then
 
 	now=$(date +"%H:%M %m/%d/%Y")
 
-	### create log file and/or set
+	# create log file and/or set
 	if [ -f /var/log/eazy.log ]; then
 		LOG=/var/log/eazy.log
 	else
@@ -30,7 +52,7 @@ if ! pidof wvdial &> /dev/null; then
 		LOG=/var/log/eazy.log
 	fi
 	
-	### set config file
+	# set config file
 	cat >> $CONF << EAZY_CONF
 [Dialer Defaults]
 Init1 = ATZ
