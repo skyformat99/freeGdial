@@ -4,12 +4,12 @@ me=`basename $0`
 version="0.1"
 
 print_help(){
-    echo "$me-$version the eazy way to connect to your mobile broadband provider
+    echo "$me-$version the eazy way to connect to your 3G/LTE broadband provider
     
     Help:
-    before first use change the variables in the script for your needs
+    before first use change the variables in the script for your need
     PIN="XYZA"
-    APN="ABC.PROVIDER.COM
+    APN="ABC.PROVIDER.COM"
     
     Also notice that wvdial and usb_modeswitch is needed.
     
@@ -20,7 +20,8 @@ case "$1" in
     *)                  print_help;;
 esac
 
-PIN="Enter your PIN here"
+# Enter your Pin and APN
+PIN="0000"
 APN="Put in your carrier" # e.g. internet.t-d1.de
 # If your broadband service provider gave you credentials you can enter them here.
 # Otherwise just leave the defaults
