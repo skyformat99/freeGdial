@@ -16,7 +16,7 @@ wvdial
 usb-modeswitch
 
 <h3>Setup</h3>
-Before execute the eazy-connect script be adviced that there is a also config file needed.
+<del>Before execute the eazy-connect script be adviced that there is a also config file needed.</del>
 <br>
 The config file can look like this:
 <br>
