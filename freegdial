@@ -13,7 +13,7 @@ print_help(){
     
     Also notice that wvdial and usb_modeswitch is needed.
     
-    For further instructions, get help on https://github.com/groldo/eazy-connect"
+    For further instructions, get help on https://github.com/groldo/freegdial"
 }
 
 case "$1" in
@@ -28,7 +28,7 @@ APN="Put in your carrier" # e.g. internet.t-d1.de
 USER="any"
 PASS="any"
 
-CONF="/tmp/eazy-connect.conf"
+CONF="/tmp/freegdial.conf"
 
 # check if required software is installed
 type wvdial >/dev/null 2>&1 || { echo >&2 "Error: wvdial is required."; exit 1; }
@@ -46,15 +46,15 @@ if ! pidof wvdial &> /dev/null; then
 	now=$(date +"%H:%M %m/%d/%Y")
 
 	# create log file and/or set
-	if [ -f /var/log/eazy.log ]; then
-		LOG=/var/log/eazy.log
+	if [ -f /var/log/freegdial.log ]; then
+		LOG=/var/log/freegdial.log
 	else
-		touch /var/log/eazy.log
-		LOG=/var/log/eazy.log
+		touch /var/log/freegdial.log
+		LOG=/var/log/freegdial.log
 	fi
 	
 	# set config file
-	cat >> $CONF << EAZY_CONF
+	cat >> $CONF << FREEGDIAL_CONF
 [Dialer Defaults]
 Init1 = ATZ
 Init2 = ATQ0 V1 E1 S0=0
@@ -75,7 +75,7 @@ Phone = *99#
 Username = $USER
 Password = $PASS
 Dial Attemtps = 2
-EAZY_CONF
+FREEGDIAL_CONF
 	# old behavior, isn't yet to be deleted
 	#if [ -f /etc/wvdial.conf ]; then
 	#	CONF=/tmp/eazy_connect.conf
