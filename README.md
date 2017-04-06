@@ -23,15 +23,15 @@ usb-modeswitch
 The wvdial configuration file is now built into the freeGdial script.
 You just need to enter your PIN and APN inside of the script to establish connection.
 <br>
-The script writes a temporarily configuration file to /tmp/freeGdial.conf
+The script writes a temporarily configuration file to /tmp/freegdial.conf
 <br>
 
 <h3>Execution</h3>
 If you want to connect to mobile broadband on purpose you can execute this script by yourself
 
-<code>chmod 755 freeGdial</code>
+<code>chmod 755 freegdial</code>
 <br>
-<code>sudo ./freeGdial</code>
+<code>sudo ./freegdial</code>
 
 But if want to connect on a regular basis you can put this script into 
 <br>
