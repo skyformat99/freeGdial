@@ -16,13 +16,14 @@ wvdial
 usb-modeswitch
 
 <h3>Installation</h3>
+<pre>
 <code>
-git clone https://github.com/groldo/freeGdial.git \<br>
-cd freeGdial \<br>
-chmod 755 freegdial \<br>
-./freegdial<br>
+git clone https://github.com/groldo/freeGdial.git \
+cd freeGdial \
+chmod 755 freegdial \
+./freegdial
 </code>
-
+</pre>
 If you want to connect to your mobile carrier on a regular basis you can put this script into 
 <br>
 /etc/cron.daily
