@@ -64,7 +64,7 @@ Modem = /dev/ttyUSB0
 Baud = 115200
 
 [Dialer pin]
-Init3 = AT+CPIN='$PIN'
+Init3 = AT+CPIN=$PIN
 [Dialer pinstatus]
 Init4 = AT+CPIN?
 [Dialer umts]
