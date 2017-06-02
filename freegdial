@@ -24,8 +24,8 @@ case "$1" in
 esac
 
 # Enter your Pin and APN
-PIN="a"
-APN="a" # e.g. internet.t-d1.de
+PIN=""
+APN="" # e.g. internet.t-d1.de
 
 # If your broadband service provider gave you credentials you can enter them here.
 # Otherwise just leave the defaults
