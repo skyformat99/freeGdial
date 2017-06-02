@@ -1,19 +1,22 @@
 #!/bin/bash
 
 me=`basename $0`
-version="0.1"
+version="0.2"
 
 print_help(){
-    echo "$me-$version the eazy way to connect to your 3G/LTE broadband provider
-    
-    Help:
-    before first use change the variables in the script for your need
-    PIN="XYZA"
-    APN="ABC.PROVIDER.COM"
-    
-    Also notice that wvdial and usb_modeswitch is needed.
-    
-    For further instructions, get help on https://github.com/groldo/freegdial"
+    echo "$me
+version: $version 
+the eazy way to connect to your 3G/LTE broadband provider
+
+Help:
+before first use change the variables in the script for your needs
+PIN="XYZA"
+APN="ABC.PROVIDER.COM"
+Make sure that this these ones are correct, in case of malfunctions
+
+Also notice that wvdial and usb_modeswitch is needed.
+
+For further instructions, get help on https://github.com/groldo/freegdial"
 }
 
 case "$1" in
@@ -21,14 +24,31 @@ case "$1" in
 esac
 
 # Enter your Pin and APN
-PIN="0000"
-APN="Put in your carrier" # e.g. internet.t-d1.de
+PIN="a"
+APN="a" # e.g. internet.t-d1.de
+
 # If your broadband service provider gave you credentials you can enter them here.
 # Otherwise just leave the defaults
 USER="any"
 PASS="any"
 
 CONF="/tmp/freegdial.conf"
+
+# check $PIN
+if [[ ! -z "$PIN" ]]; then
+    echo "PIN set"
+else 
+    echo "PIN is not set!"
+    exit 1
+fi
+
+# check $APN
+if [[ ! -z "$APN" ]]; then
+    echo "APN set"
+else 
+    echo "APN is not set!"
+    exit 1
+fi
 
 # check if required software is installed
 type wvdial >/dev/null 2>&1 || { echo >&2 "Error: wvdial is required."; exit 1; }
@@ -76,13 +96,6 @@ Username = $USER
 Password = $PASS
 Dial Attemtps = 2
 FREEGDIAL_CONF
-	# old behavior, isn't yet to be deleted
-	#if [ -f /etc/wvdial.conf ]; then
-	#	CONF=/tmp/eazy_connect.conf
-	#else
-	#	echo $now 'No config file found' >> $LOG
-	#	exit 0
-	#fi
 	
 	### switch mode of usb modem
 	if lsusb | grep 12d1 &> /dev/null;then
