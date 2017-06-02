@@ -2,7 +2,8 @@
 
 <h2>Connect to mobile broadband via wvdial</h2><br>
 This script is supposed to help to establish a connection to your mobile carrier.
-I'm not the maintainer or developer neither for wvdial nor usb-modeswitch, this script is a wrapper for both to ease up the installation.
+I'm not the maintainer or developer neither for wvdial nor usb-modeswitch.
+This script is a wrapper for both to ease up the installation.
 
 <h3>Requirements</h3>
 <h4>Hardware</h4>
