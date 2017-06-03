@@ -61,7 +61,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # if wvdial is already running nothing happens
-if ! pidof wvdial &> /dev/null; then
+if pidof wvdial &> /dev/null; then
 	echo $now 'wvdial already started'
 	exit 0
 fi
