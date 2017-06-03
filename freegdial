@@ -62,19 +62,22 @@ fi
 
 # if wvdial is already running nothing happens
 if ! pidof wvdial &> /dev/null; then
+	echo $now 'wvdial already started'
+	exit 0
+fi
 
-	now=$(date +"%H:%M %m/%d/%Y")
+now=$(date +"%H:%M %m/%d/%Y")
 
-	# create log file and/or set
-	if [ -f /var/log/freegdial.log ]; then
-		LOG=/var/log/freegdial.log
-	else
-		touch /var/log/freegdial.log
-		LOG=/var/log/freegdial.log
-	fi
-	
-	# set config file
-	cat >> $CONF << FREEGDIAL_CONF
+# create log file and/or set
+if [ -f /var/log/freegdial.log ]; then
+    LOG=/var/log/freegdial.log
+else
+    touch /var/log/freegdial.log
+    LOG=/var/log/freegdial.log
+fi
+
+# set config file
+cat >> $CONF << FREEGDIAL_CONF
 [Dialer Defaults]
 Init1 = ATZ
 Init2 = ATQ0 V1 E1 S0=0
@@ -96,27 +99,23 @@ Username = $USER
 Password = $PASS
 Dial Attemtps = 2
 FREEGDIAL_CONF
-	
-	### switch mode of usb modem
-	if lsusb | grep 12d1 &> /dev/null;then
-		usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000' &> /dev/null
-		sleep 1
-	else
-		echo $now 'Modeswitch failed' >> $LOG
-		exit 0
-	fi
 
-	### connect to mobile broadband
-	if lsusb | grep Modem &> /dev/null;then
-		wvdial -C $CONF pin &> /dev/null
-		sleep 1
-		wvdial -C $CONF umts &> /dev/null &
-		echo $now 'Connection established' >> $LOG
-	else
-		echo $now 'No modem device connected' >> $LOG
-		exit 0
-	fi
+### switch mode of usb modem
+if lsusb | grep 12d1 &> /dev/null;then
+    usb_modeswitch -v 12d1 -p 14fe -M '55534243123456780000000000000011062000000100000000000000000000' &> /dev/null
+    sleep 1
 else
-	echo $now 'wvdial already started'
-	exit 0
+    echo $now 'Modeswitch failed' >> $LOG
+    exit 0
+fi
+
+### connect to mobile broadband
+if lsusb | grep Modem &> /dev/null;then
+    wvdial -C $CONF pin &> /dev/null
+    sleep 1
+    wvdial -C $CONF umts &> /dev/null &
+    echo $now 'Connection established' >> $LOG
+else
+    echo $now 'No modem device connected' >> $LOG
+    exit 0
 fi
