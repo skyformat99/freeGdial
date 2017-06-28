@@ -24,8 +24,8 @@ case "$1" in
 esac
 
 # Enter your Pin and APN
-PIN=""
-APN="" # e.g. internet.t-d1.de
+PIN="6647"
+APN="web.vodafone.de" # e.g. internet.t-d1.de
 
 # If your broadband service provider gave you credentials you can enter them here.
 # Otherwise just leave the defaults
@@ -34,6 +34,7 @@ PASS="any"
 
 CONF="/tmp/freegdial.conf"
 
+sleep 60
 # check $PIN
 if [[ ! -z "$PIN" ]]; then
     echo "PIN set"
@@ -119,3 +120,15 @@ else
     echo $now 'No modem device connected' >> $LOG
     exit 0
 fi
+
+usb_control() {
+    while lsusb | grep Modem &> /dev/null 
+    do
+        echo $now 'check passed' >> $LOG
+        sleep 60
+    done
+    echo $now 'Modem down; Reboot' >> $LOG
+    reboot
+}
+
+usb_control &
