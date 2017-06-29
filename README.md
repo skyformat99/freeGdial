@@ -31,10 +31,4 @@ If you want to connect to your mobile carrier on a regular basis you can put thi
 <br>
 (or 'hourly' whatever you need)
 
-
-<h4>TODO</h4>
-<pre>
-add case for setup:
-  if PIN still 0000 input PIN
-  same for APN
-</pre>
+To make it start on boot put it into /etc/rc.local
