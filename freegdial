@@ -1,7 +1,7 @@
 #!/bin/bash
 
 me=`basename $0`
-version="0.2"
+version="0.3"
 
 print_help(){
     echo "$me
@@ -34,7 +34,7 @@ PASS="any"
 
 CONF="/tmp/freegdial.conf"
 
-sleep 60
+sleep 15
 # check $PIN
 if [[ ! -z "$PIN" ]]; then
     echo "PIN set"
@@ -124,8 +124,7 @@ fi
 usb_control() {
     while lsusb | grep Modem &> /dev/null 
     do
-        echo $now 'check passed' >> $LOG
-        sleep 60
+        sleep 30
     done
     echo $now 'Modem down; Reboot' >> $LOG
     reboot
